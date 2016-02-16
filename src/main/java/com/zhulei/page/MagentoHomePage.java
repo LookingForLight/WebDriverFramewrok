@@ -19,7 +19,7 @@ public class MagentoHomePage extends DriverStart {
 		
 		return PageUtils.getTitle();
 	}
-	
+	//点击mobile链接
 	public void clickMobile(){
 		
 		mobile.click();

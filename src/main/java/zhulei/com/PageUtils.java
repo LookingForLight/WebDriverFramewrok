@@ -1,8 +1,15 @@
 package zhulei.com;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -18,7 +25,7 @@ public class PageUtils extends DriverStart{
 	
 	//打开目标地址
 	public static void getUrl(String url){
-		
+		driver.manage().window().maximize();
 		driver.get(url);
 		
 	}
@@ -103,7 +110,41 @@ public class PageUtils extends DriverStart{
 		return text;
 	}
 
+	//获取目标元素的内容
+	public static String getValueOfElement(List<WebElement> elements,int i,By by){
+		String value=null;
+		WebElement el=elements.get(i).findElement(by);
+		value=el.getText();
+		return value;
+		
+	}
+   //获取当前时间
+	public static String getCurrentDateTime(){
 
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+
+		//System.out.println(df.format(new Date()));
+
+		return df.format(new Date());
+
+		}
+	
+	//截图（当前时间保存）
+	public static void takeScreenShot(String path,String name) {
+		
+		File scrFile = ((TakesScreenshot) driver)
+				.getScreenshotAs(OutputType.FILE);
+
+		try {
+
+			FileUtils.copyFile(scrFile, new File(path,name + "-" + getCurrentDateTime()+".png"));
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}
+	}
 
 }
 

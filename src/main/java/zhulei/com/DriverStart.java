@@ -44,9 +44,11 @@ public class DriverStart {
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
 			ChromeOptions chromeOpt = new ChromeOptions();
 			chromeOpt.addArguments("test-type");
-			DesiredCapabilities chromecapability = DesiredCapabilities.chrome();
-			chromecapability.setCapability(ChromeOptions.CAPABILITY,chromeOpt);						
-			driver = new ChromeDriver(chromecapability);			
+			//chromeOpt.addArguments("start-maximized");
+//	        chromeOpt.setExperimentalOption("excludeSwitches", "ignore-certificate-errors");
+            DesiredCapabilities chromecapability = DesiredCapabilities.chrome();
+            chromecapability.setCapability(ChromeOptions.CAPABILITY,chromeOpt);						
+			driver = new ChromeDriver(chromecapability);	
 			wait = new WebDriverWait(driver, 10);
 		}
 		

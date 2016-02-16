@@ -2,7 +2,7 @@
 <suite name="Suite" parallel="false">
   <test name="Test">
     <parameters>
-        <parameter name="sortby" value="Price" />
+        <parameter name="sortby" value="Name" />
     </parameters>
     <classes>
       <class name="zhulei.com.TestCaseOne"/>
