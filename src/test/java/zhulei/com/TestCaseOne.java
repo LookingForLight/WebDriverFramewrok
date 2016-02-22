@@ -1,12 +1,20 @@
 package zhulei.com;
 
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.AfterTest;
 
+import zhulei.com.DriverStart;
+
+import com.gargoylesoftware.htmlunit.Page;
 import com.zhulei.page.MagentoHomePage;
 import com.zhulei.page.MobilePage;
 
@@ -25,17 +33,18 @@ public class TestCaseOne extends DriverStart {
 	 * 6.verify all products are sorted by name
 	 */
 	@Test
-	@Parameters({"sortby"})
-	public void VerifyMobilePage(String sortby) {
-			    
+	//@Parameters({"sortby"})
+	public void VerifyMobilePage() {
+
 		MagentoHomePage page=PageFactory.initElements(driver, MagentoHomePage.class);
+		
 		String homeTitle=PageUtils.getTitle();		
 		Assert.assertEquals("Home page", homeTitle);
 		page.clickMobile();
 		MobilePage mobilepage=PageFactory.initElements(driver, MobilePage.class);
 		String mobileTitle=PageUtils.getTitle();
 		Assert.assertEquals("Mobile", mobileTitle);		
-		mobilepage.sortBy(sortby);		
+		mobilepage.sortBy("Name");		
 		System.out.println(driver.getCurrentUrl());
 		Boolean result=mobilepage.checkFirstProductName("IPHONE");
 		Assert.assertTrue(result);
@@ -43,16 +52,19 @@ public class TestCaseOne extends DriverStart {
 		
 	}
 
-	@BeforeTest
-	public void beforeTest() {
+	@BeforeClass
+	@Parameters({"browser"})
+	public void setup(String browser) {
 		
-		DriverStart.startDriver("firefox");
+		DriverStart.startDriver("chrome");
+		//System.out.println(Thread.currentThread().getId());
 		PageUtils.getUrl(BASE_URL);
+
 		
 	}
 
-	@AfterTest
-	public void afterTest() {
+	@AfterClass
+	public void close() {
 		
 		driver.quit();
 	}

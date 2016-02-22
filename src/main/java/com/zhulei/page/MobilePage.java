@@ -5,6 +5,8 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.internal.PackageUtils;
 
 import zhulei.com.DriverStart;
 import zhulei.com.PageUtils;
@@ -25,6 +27,18 @@ public class MobilePage extends DriverStart {
 	
 	@FindBy(css="button.button.btn-cart")
 	WebElement cartbt;
+	
+	@FindBy(className="link-compare")
+	List<WebElement> comparelinks;
+	
+	@FindBy(xpath="//h2/a[@title='IPhone']")
+	WebElement iphone;
+	
+	@FindBy(xpath="//h2/a[@title='Sony Xperia']")
+	WebElement sony;
+	
+	@FindBy(css="button[title='Compare']")
+	WebElement compare;
 	//根据选择的方法排序 position price name
 	public void sortBy(String value){
 		
@@ -64,8 +78,40 @@ public class MobilePage extends DriverStart {
 	
 	
 	public void goToCartPage(){
-		
+		wait.until(ExpectedConditions.elementToBeClickable(cartbt));
 		cartbt.click();
-		System.out.println("go to cartpage");
+		
+	}
+	
+	public Boolean AddProductionToCompare() {
+		Boolean sign = false;
+		wait.until(ExpectedConditions.visibilityOfAllElements(comparelinks));
+		String iphonetext=iphone.getText();
+		//String sonytext=sony.getText();
+		comparelinks.get(0).click();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		comparelinks.get(2).click();
+		
+		wait.until(ExpectedConditions.visibilityOf(compare));
+		compare.click();
+		
+		PageUtils.switchToWindow();
+		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id='product_comparison']/tbody[1]/tr[1]/td[2]/h2/a")));
+		String popiphonetext=driver.findElement(By.xpath("//*[@id='product_comparison']/tbody[1]/tr[1]/td[2]/h2/a")).getText();
+		
+		wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[@title='Close Window']")));
+		if(iphonetext.equalsIgnoreCase(popiphonetext)){
+			
+			System.out.println("true");
+			driver.findElement(By.xpath("//button[@title='Close Window']")).click();
+			sign = true;
+		}
+		return sign;
 	}
 }

@@ -118,10 +118,18 @@ public class PageUtils extends DriverStart{
 		return value;
 		
 	}
+	//获取目标元素的内容
+	public static String getValueOfElement(List<WebElement> elements,int i){
+		String value=null;
+		WebElement el=elements.get(i);
+		value=el.getText();
+		return value;
+		
+	}
    //获取当前时间
 	public static String getCurrentDateTime(){
 
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");//设置日期格式
 
 		//System.out.println(df.format(new Date()));
 
@@ -143,6 +151,15 @@ public class PageUtils extends DriverStart{
 
 			e.printStackTrace();
 
+		}
+	}
+	
+	//切换到pop-ups
+	public static void switchToWindow(){
+		
+		for(String handle : driver.getWindowHandles()){
+			
+			driver.switchTo().window(handle);
 		}
 	}
 

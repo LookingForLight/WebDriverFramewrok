@@ -1,9 +1,15 @@
 package zhulei.com;
 
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.zhulei.page.CartPage;
@@ -25,34 +31,36 @@ public class TestCaseTwo extends DriverStart {
 	 */
 	@Test
 	public void verifyCostOfProduction(){
-		
 
-		
 		MagentoHomePage homepage=PageFactory.initElements(driver, MagentoHomePage.class);
+		
 		homepage.clickMobile();
 		MobilePage mobilepage = PageFactory.initElements(driver, MobilePage.class);
+		PageUtils.takeScreenShot("./image", "MoiblePage");
 		String cost = mobilepage.getCostOfSony();
 		mobilepage.goToSonyDetailPage();
 		SonyDetailPage sonypage = PageFactory.initElements(driver, SonyDetailPage.class);
 		String cost1 = sonypage.getCost();
 		Assert.assertTrue(cost.equalsIgnoreCase(cost1), "the value is not same");
-		PageUtils.takeScreenShot("./image", "sonydetail");
+		
 		
 	}
 	
 	
-	@BeforeTest
-	public void beforeTest() {
+	@BeforeClass
+	@Parameters({"browser"})
+	public void setup(String browser) {
 		
 		DriverStart.startDriver("chrome");
+		//System.out.println(Thread.currentThread().getId());
 		PageUtils.getUrl(TestCaseOne.BASE_URL);
+
 		
 	}
 
-	@AfterTest
-	public void afterTest() {
+	@AfterClass
+	public void close() {
 		
 		driver.quit();
 	}
-	
 }

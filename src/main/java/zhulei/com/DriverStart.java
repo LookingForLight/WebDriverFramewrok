@@ -14,12 +14,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class DriverStart {
 	
-	public static WebDriver driver;
+	public static  WebDriver driver;
 	
-	public static WebDriverWait wait;
+	public  static WebDriverWait wait;
 	
 	//传递不同参数启动不同webdriver
-	public static void startDriver(String device){
+	public static  void startDriver(String device){
 		
 		
 		if (device.equals("firefox")){
@@ -27,7 +27,7 @@ public class DriverStart {
 			ProfilesIni allProfiles = new ProfilesIni();
 			FirefoxProfile profile = allProfiles.getProfile("Selenium");
 			driver = new FirefoxDriver(profile);
-			wait = new WebDriverWait(driver, 10);
+			wait = new WebDriverWait(driver, 30);
 			
 		}
 		
@@ -37,7 +37,7 @@ public class DriverStart {
 			DesiredCapabilities iecapability = DesiredCapabilities.internetExplorer();
 			iecapability.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
 			driver = new InternetExplorerDriver(iecapability);
-			wait = new WebDriverWait(driver, 10);
+			wait = new WebDriverWait(driver, 20);
 		}
 		if (device.equals("chrome")){
 			
@@ -48,8 +48,9 @@ public class DriverStart {
 //	        chromeOpt.setExperimentalOption("excludeSwitches", "ignore-certificate-errors");
             DesiredCapabilities chromecapability = DesiredCapabilities.chrome();
             chromecapability.setCapability(ChromeOptions.CAPABILITY,chromeOpt);						
-			driver = new ChromeDriver(chromecapability);	
-			wait = new WebDriverWait(driver, 10);
+			driver = new ChromeDriver(chromecapability);
+			driver.manage().window().maximize();
+			wait = new WebDriverWait(driver, 20);
 		}
 		
 		
